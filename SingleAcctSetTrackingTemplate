@@ -1,0 +1,16 @@
+function main() {
+  var trackingTemplate = "{lpurl}?campaign={campaignid}&content={creative}&keyword={keyword}&device={device}"
+  
+  
+// select all enabled search adgroups
+  var ag = AdsApp.adGroups()
+    .withCondition('CampaignStatus = ENABLED')
+    .withCondition('Status = ENABLED')
+    .withCondition("AdvertisingChannelType = SEARCH")
+    .get()
+
+  while (ag.hasNext()){
+    var a = ag.next();
+    a.urls().setTrackingTemplate(trackingTemplate);
+}
+}
