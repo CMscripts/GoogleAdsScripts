@@ -1,0 +1,30 @@
+function main() {
+  var trackingTemplate = "{lpurl}?campaign={campaignid}&content={creative}&keyword={keyword}&device={device}"
+  
+ 
+ var accounts = MccApp.accounts()
+ .orderBy("Name ASC")
+ .withCondition("Clicks > 0")
+         .forDateRange("THIS_MONTH")
+//.orderBy("Clicks DESC")
+.withCondition("Name DOES_NOT_CONTAIN_IGNORE_CASE 'test'")
+   .withCondition("Name DOES_NOT_CONTAIN_IGNORE_CASE 'Inc'").get();
+  while(accounts.hasNext()){
+    var account = accounts.next();
+    MccApp.select(account);
+    Logger.log(account.getName());
+// select all enabled search adgroups
+  var ag = AdsApp.adGroups()
+    .withCondition('CampaignStatus = ENABLED')
+    .withCondition("Name DOES_NOT_CONTAIN_IGNORE_CASE 'Dynamic'")
+    .withCondition('Status = ENABLED')
+    .withCondition("AdvertisingChannelType = SEARCH")
+    .get()
+ 
+  while (ag.hasNext()){
+    var a = ag.next();
+  //  Logger.log(a.getName());
+    a.urls().setTrackingTemplate(trackingTemplate);
+}
+}
+}
