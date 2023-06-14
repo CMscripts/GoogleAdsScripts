@@ -11,11 +11,13 @@ function main() {
         MccApp.select(account);
 
         //Query
+         var out = [["Query","AccountDescriptiveName","AdGroupName","Clicks","Conversions","ConversionRate","AverageCpc","CostPerConversion","Cost" ]];
         
-        var report = AdWordsApp.report("SELECT Query,AccountDescriptiveName,AdGroupName,Clicks,Conversions,ConversionRate,AverageCpc,CostPerConversion,Cost " +
+        var report = AdsApp.report("SELECT Query,AccountDescriptiveName,AdGroupName,Clicks,Conversions,ConversionRate,AverageCpc,CostPerConversion,Cost " +
          "FROM SEARCH_QUERY_PERFORMANCE_REPORT " +
           "WHERE Clicks > 0 " +
-          "DURING YESTERDAY");          
+          "DURING YESTERDAY").rows();
+             
         //  "DURING THIS_MONTH");
 
         while (report.hasNext()) {
